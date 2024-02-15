@@ -13,6 +13,7 @@ jobs:
       - name: Create Documentation directory
         run: |
           echo "Creating 'Documentation'"
+          rm -rf [Dd]ocumentation
           mkdir -p documentation
       - name: Install knitr dependency
         run: |
@@ -28,6 +29,8 @@ jobs:
           git config --global user.email 'actions@github.com'
           git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/$GITHUB_REPOSITORY
           echo "Staging documentation"
+          git fetch
+          git merge --no-edit --no-ff
           git add documentation/ # This is the only directory that has changes and should be staged
           git commit -m "Update documentation" || true
           git push || true
